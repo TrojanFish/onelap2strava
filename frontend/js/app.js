@@ -267,6 +267,17 @@ async function loadDashboardData() {
                 cookieBadge.className = "text-xs font-bold px-2.5 py-1 rounded-md bg-slate-800 text-slate-200 border border-slate-700";
             }
 
+            const autoSyncSpan = document.getElementById("stat-auto-sync");
+            if (autoSyncSpan) {
+                if (summary.auto_sync_enabled) {
+                    autoSyncSpan.innerText = `已开启 (${summary.sync_interval_hours || 6}h)`;
+                    autoSyncSpan.className = "text-base font-extrabold text-emerald-400";
+                } else {
+                    autoSyncSpan.innerText = "已禁用 (Disabled)";
+                    autoSyncSpan.className = "text-base font-extrabold text-slate-400";
+                }
+            }
+
             document.getElementById("stat-last-sync").innerText = summary.last_sync_at ? new Date(summary.last_sync_at).toLocaleString() : "从未执行";
         }
 
@@ -394,6 +405,7 @@ async function saveUserConfig() {
         if (res.ok) {
             showToast("账号与 Strava 配置已成功保存！", "success");
             loadUserConfig();
+            loadDashboardData();
         } else {
             showToast("保存失败，请检查填写内容", "error");
         }

@@ -17,6 +17,8 @@ class SyncSummaryResponse(BaseModel):
     total_activities: int
     last_sync_at: Optional[str] = None
     cookie_status: str
+    auto_sync_enabled: bool = True
+    sync_interval_hours: int = 6
 
 @router.post("/trigger")
 async def trigger_sync(
@@ -52,10 +54,15 @@ def get_sync_summary(current_user: models.User = Depends(get_current_user), db: 
         models.SyncedActivity.user_id == current_user.id
     ).count()
 
+    auto_sync = cfg.auto_sync_enabled if (cfg and cfg.auto_sync_enabled is not None) else True
+    interval = cfg.sync_interval_hours if (cfg and cfg.sync_interval_hours) else 6
+
     return SyncSummaryResponse(
         total_synced=total_synced,
         total_failed=total_failed,
         total_activities=total_activities,
         last_sync_at=cfg.last_sync_at.isoformat() if (cfg and cfg.last_sync_at) else None,
-        cookie_status=cfg.cookie_status if cfg else "untested"
+        cookie_status=cfg.cookie_status if cfg else "untested",
+        auto_sync_enabled=auto_sync,
+        sync_interval_hours=interval
     )
