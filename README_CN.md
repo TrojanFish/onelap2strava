@@ -30,7 +30,13 @@ git clone https://github.com/TrojanFish/onelap2strava.git
 cd onelap2strava
 ```
 
-### 第二步：启动容器
+### 第二步：配置环境变量
+复制环境变量配置文件（如果没有特别需求，保持默认即可）：
+```bash
+cp .env.example .env
+```
+
+### 第三步：启动容器
 ```bash
 docker-compose up -d
 ```

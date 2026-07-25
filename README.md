@@ -36,8 +36,13 @@ git clone https://github.com/TrojanFish/onelap2strava.git
 cd onelap2strava
 ```
 
-### Step 2: Configure Environment Variables (Optional)
-Edit `docker-compose.yml` or create a `.env` file to customize your secret keys:
+### Step 2: Configure Environment Variables
+Copy the environment variables template file (you can keep the defaults unless you have specific needs):
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file or `docker-compose.yml` to customize your secret keys (Optional):
 ```yaml
 environment:
   - SECRET_KEY=your_random_secret_jwt_key
