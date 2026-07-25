@@ -28,13 +28,20 @@ window.setStravaMode = function(mode) {
     document.getElementById('strava-section-platform').classList.add('hidden');
     document.getElementById('strava-section-cookie').classList.add('hidden');
     document.getElementById('strava-section-api').classList.add('hidden');
+    
+    const tutCookie = document.getElementById('tutorial-cookie');
+    const tutApi = document.getElementById('tutorial-api');
+    if(tutCookie) tutCookie.classList.add('hidden');
+    if(tutApi) tutApi.classList.add('hidden');
 
     if (mode === 'platform') {
         document.getElementById('strava-section-platform').classList.remove('hidden');
     } else if (mode === 'cookie') {
         document.getElementById('strava-section-cookie').classList.remove('hidden');
+        if(tutCookie) tutCookie.classList.remove('hidden');
     } else {
         document.getElementById('strava-section-api').classList.remove('hidden');
+        if(tutApi) tutApi.classList.remove('hidden');
     }
 }
 
