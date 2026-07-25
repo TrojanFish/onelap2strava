@@ -34,7 +34,7 @@ cd onelap2strava
 ```bash
 docker-compose up -d
 ```
-启动后在浏览器中访问 `http://<你的VPS公网IP>:8000` 即可进入 Web 管理界面！
+启动后在浏览器中访问 `http://<你的VPS公网IP>:8766` 即可进入 Web 管理界面！
 
 ---
 

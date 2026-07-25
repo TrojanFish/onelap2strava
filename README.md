@@ -49,7 +49,7 @@ environment:
 ```bash
 docker-compose up -d
 ```
-Access the Web Dashboard by visiting `http://<your-vps-ip>:8000` in your browser!
+Access the Web Dashboard by visiting `http://<your-vps-ip>:8766` in your browser!
 
 ---
 

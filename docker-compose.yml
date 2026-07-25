@@ -5,7 +5,7 @@ services:
     build: .
     container_name: onelap2strava_webapp
     ports:
-      - "8000:8000"
+      - "8766:8766"
     environment:
       - SECRET_KEY=change_this_to_your_secure_secret_key_12345
       - ENCRYPTION_KEY=u234567890123456789012345678901234567890123=
