@@ -18,7 +18,7 @@
 
     <!-- Header Navigation -->
     <header class="sticky top-0 z-40 bg-slate-900 border-b border-slate-700/80 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-1">
             <!-- Brand Logo -->
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/30">
@@ -28,7 +28,7 @@
                     <span class="font-extrabold text-xl tracking-tight text-white">
                         Onelap<span class="text-orange-500">2</span>Strava
                     </span>
-                    <span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold">v1.0 WebApp</span>
+                    <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold">v1.0 WebApp</span>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
             <!-- User Auth Profile Header -->
             <div id="user-header-area" class="flex items-center gap-3">
                 <span id="user-display-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block">未登录</span>
-                <button id="auth-modal-trigger-btn" onclick="openAuthModal()" class="btn-primary text-xs px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+                <button id="auth-modal-trigger-btn" onclick="openAuthModal()" class="btn-primary text-xs px-3 sm:px-4 py-2 rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap">
                     <i class="fa-solid fa-user"></i>
                     <span id="auth-btn-text">登录 / 注册</span>
                 </button>
@@ -60,7 +60,7 @@
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 max-w-sm pointer-events-none"></div>
 
     <!-- Main Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 md:pb-8">
 
         <!-- ==================== TAB 1: DASHBOARD ==================== -->
         <section id="tab-dashboard" class="tab-content space-y-6">
@@ -180,12 +180,12 @@
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Onelap Config Card -->
                     <div class="card-panel p-6">
-                        <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-700">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 pb-3 border-b border-slate-700">
                             <h2 class="text-lg font-extrabold text-white flex items-center gap-2">
                                 <span class="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-sm">1</span>
                                 顽鹿竞技 (Onelap) 账号绑定
                             </h2>
-                            <button id="test-onelap-btn" onclick="testOnelapCredentials()" class="text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all flex items-center gap-1.5">
+                            <button id="test-onelap-btn" onclick="testOnelapCredentials()" class="text-xs font-bold px-3 py-2.5 sm:py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all flex items-center justify-center w-full sm:w-auto mt-3 sm:mt-0 gap-1.5">
                                 <i class="fa-solid fa-plug text-orange-400"></i> 测试顽鹿连接
                             </button>
                         </div>
@@ -209,7 +209,7 @@
                                 <span class="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-sm">2</span>
                                 Strava 同步方式与凭据配置
                             </h2>
-                            <button id="test-strava-btn" onclick="testStravaCredential()" class="text-xs font-bold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all flex items-center gap-1.5">
+                            <button id="test-strava-btn" onclick="testStravaCredential()" class="text-xs font-bold px-3 py-2.5 sm:py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-600 transition-all flex items-center justify-center w-full sm:w-auto mt-3 sm:mt-0 gap-1.5">
                                 <i class="fa-solid fa-vial text-orange-400"></i> 测试 Strava 凭据
                             </button>
                         </div>
@@ -217,11 +217,11 @@
                         <!-- Mode Toggle Tabs -->
                         <div class="mb-6">
                             <label class="block text-xs font-bold text-slate-300 mb-2">选择 Strava 上传模式：</label>
-                            <div class="inline-flex p-1 bg-slate-950 rounded-xl border border-slate-700 gap-1">
-                                <button type="button" id="strava-mode-btn-cookie" onclick="window.setStravaMode('cookie')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40">
+                            <div class="flex flex-col sm:flex-row p-1 bg-slate-950 rounded-xl border border-slate-700 gap-1">
+                                <button type="button" id="strava-mode-btn-cookie" onclick="window.setStravaMode('cookie')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40 w-full sm:w-auto">
                                     <i class="fa-solid fa-cookie"></i> 免 API Cookie 模式 (普通用户)
                                 </button>
-                                <button type="button" id="strava-mode-btn-api" onclick="window.setStravaMode('api')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white">
+                                <button type="button" id="strava-mode-btn-api" onclick="window.setStravaMode('api')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white w-full sm:w-auto">
                                     <i class="fa-solid fa-key"></i> 官方 Strava API 模式 (开发者)
                                 </button>
                             </div>
@@ -265,9 +265,9 @@
                                         <i class="fa-solid fa-wand-magic-sparkles"></i> 网页一键 Token 换取助手 (免终端 curl)
                                     </span>
                                 </div>
-                                <div class="flex gap-2">
+                                <div class="flex flex-col sm:flex-row gap-2">
                                     <input type="text" id="api-auth-code-input" placeholder="粘贴浏览器获取的 code (例如 7754cccfa08317e4...)" class="flex-1 rounded-lg px-3 py-2 text-xs font-mono focus:outline-none">
-                                    <button type="button" onclick="autoExchangeRefreshToken()" class="btn-primary px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap">
+                                    <button type="button" onclick="autoExchangeRefreshToken()" class="btn-primary px-4 py-3 sm:py-2 rounded-lg text-xs font-bold whitespace-nowrap w-full sm:w-auto flex justify-center">
                                         一键生成 Refresh Token
                                     </button>
                                 </div>
@@ -470,7 +470,26 @@
 
     </main>
 
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 w-full bg-slate-900 border-t border-slate-700/80 z-40 pb-safe shadow-[0_-4px_10px_rgba(0,0,0,0.2)]">
+        <div class="flex items-center justify-around h-14">
+            <button onclick="switchTab('dashboard')" class="nav-tab flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-orange-400 transition-colors">
+                <i class="fa-solid fa-chart-pie text-lg mb-1"></i>
+                <span class="text-[10px] font-bold">仪表盘</span>
+            </button>
+            <button onclick="switchTab('config')" class="nav-tab flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-orange-400 transition-colors">
+                <i class="fa-solid fa-gear text-lg mb-1"></i>
+                <span class="text-[10px] font-bold">配置</span>
+            </button>
+            <button onclick="switchTab('logs')" class="nav-tab flex flex-col items-center justify-center w-full h-full text-slate-400 hover:text-orange-400 transition-colors">
+                <i class="fa-solid fa-list-check text-lg mb-1"></i>
+                <span class="text-[10px] font-bold">日志</span>
+            </button>
+        </div>
+    </nav>
     <!-- Footer -->
+
     <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-400 font-medium">
         <p>Onelap2Strava Sync WebApp &copy; 2026 | 基于开源项目 OnelapSyncStrava 升级打造</p>
     </footer>
