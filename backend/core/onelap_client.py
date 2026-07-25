@@ -31,7 +31,7 @@ class OnelapClient:
         if not self.username or not self.password:
             raise ValueError("Username and password are required for Onelap login")
 
-        url = f"{self.BASE_URL}/api/user/login"
+        url = f"{self.BASE_URL}/api/login"
         payload = {
             "account": self.username,
             "password": self._hash_password(self.password),
