@@ -169,3 +169,66 @@ async def test_strava(current_user: models.User = Depends(get_current_user), db:
         cfg.cookie_status = "expired"
         db.commit()
         raise HTTPException(status_code=400, detail=f"Strava session invalid: {result.get('reason')}")
+
+class PlatformExchangeRequest(BaseModel):
+    code: str
+
+@router.post("/exchange-platform-token")
+def exchange_platform_token(req: PlatformExchangeRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    from backend.app.config import settings
+    import requests
+    
+    if not settings.PLATFORM_STRAVA_CLIENT_ID or not settings.PLATFORM_STRAVA_CLIENT_SECRET:
+        raise HTTPException(status_code=500, detail="Platform API is not configured on the server")
+        
+    url = "https://www.strava.com/oauth/token"
+    payload = {
+        "client_id": settings.PLATFORM_STRAVA_CLIENT_ID,
+        "client_secret": settings.PLATFORM_STRAVA_CLIENT_SECRET,
+        "code": req.code,
+        "grant_type": "authorization_code"
+    }
+    
+    resp = requests.post(url, data=payload)
+    if resp.status_code != 200:
+        raise HTTPException(status_code=400, detail=f"Strava Exchange Failed: {resp.text}")
+        
+    data = resp.json()
+    refresh_token = data.get("refresh_token")
+    if not refresh_token:
+        raise HTTPException(status_code=400, detail="Strava response missing refresh_token")
+        
+    user_config = db.query(UserConfig).filter(UserConfig.user_id == current_user.id).first()
+    if not user_config:
+        user_config = UserConfig(user_id=current_user.id)
+        db.add(user_config)
+        
+    user_config.strava_mode = "api"
+    # Clear the custom keys so it defaults to Platform key
+    user_config.strava_client_id = None
+    user_config.strava_client_secret = None
+    
+    from backend.core.security import encrypt_token
+    user_config.strava_refresh_token_encrypted = encrypt_token(refresh_token)
+    
+    db.commit()
+    return {"status": "success", "message": "Platform API authorized successfully!"}
+
+@router.get("/oauth-url")
+def get_oauth_url(request: Request):
+    from backend.app.config import settings
+    if not settings.PLATFORM_STRAVA_CLIENT_ID:
+        return {"url": None}
+    
+    # We construct the oauth url and set the redirect_uri to the origin of the request
+    # If there's a proxy, request.base_url might be tricky, but we can try to guess or just use origin headers
+    origin = request.headers.get("origin") or request.headers.get("referer") or str(request.base_url)
+    if origin.endswith("/"):
+        origin = origin[:-1]
+    
+    # ensure it's http/https
+    if not origin.startswith("http"):
+        origin = str(request.base_url).strip("/")
+        
+    url = f"https://www.strava.com/oauth/authorize?client_id={settings.PLATFORM_STRAVA_CLIENT_ID}&response_type=code&redirect_uri={origin}&approval_prompt=force&scope=read,activity:write,activity:read_all"
+    return {"url": url}

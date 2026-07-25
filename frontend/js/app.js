@@ -1,3 +1,4 @@
+let platformModeReady = false;
 // Onelap2Strava Web App Frontend Logic
 
 const API_BASE = "";
@@ -8,12 +9,35 @@ let currentStravaMode = "cookie";
 // Globally bind setStravaMode to window
 window.setStravaMode = function(mode) {
     currentStravaMode = mode;
-    const cookieBtn = document.getElementById("strava-mode-btn-cookie");
-    const apiBtn = document.getElementById("strava-mode-btn-api");
-    const cookieSec = document.getElementById("strava-section-cookie");
-    const apiSec = document.getElementById("strava-section-api");
-    const cookieTut = document.getElementById("tutorial-cookie");
-    const apiTut = document.getElementById("tutorial-api");
+    
+    // Reset all tabs
+    const btnIds = ['strava-mode-btn-platform', 'strava-mode-btn-cookie', 'strava-mode-btn-api'];
+    btnIds.forEach(id => {
+        const btn = document.getElementById(id);
+        if(!btn) return;
+        btn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white w-full sm:w-auto';
+    });
+
+    // Active tab style
+    const activeBtn = document.getElementById(`strava-mode-btn-${mode}`);
+    if(activeBtn) {
+        activeBtn.className = 'px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40 w-full sm:w-auto';
+    }
+
+    // Toggle Sections
+    document.getElementById('strava-section-platform').classList.add('hidden');
+    document.getElementById('strava-section-cookie').classList.add('hidden');
+    document.getElementById('strava-section-api').classList.add('hidden');
+
+    if (mode === 'platform') {
+        document.getElementById('strava-section-platform').classList.remove('hidden');
+    } else if (mode === 'cookie') {
+        document.getElementById('strava-section-cookie').classList.remove('hidden');
+    } else {
+        document.getElementById('strava-section-api').classList.remove('hidden');
+    }
+}
+
 
     if (mode === "cookie") {
         if (cookieBtn) cookieBtn.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40";
@@ -522,4 +546,20 @@ async function loadActivityLogs() {
 function refreshLogs() {
     loadActivityLogs();
     showToast("日志已更新", "info");
+}
+
+window.startPlatformOAuth = function() {
+    // Assuming backend endpoint /api/config gives us the client_id, but we can't easily get it securely unless we expose it.
+    // Instead of frontend constructing the OAuth URL, we can ask backend to construct it, OR just redirect directly to backend which issues a 302 redirect.
+    // Let's just fetch the client_id from a new endpoint, or we can hardcode the URL if we expose the client_id in config fetch.
+    showToast("请求授权地址中...", "info");
+    fetch('/api/config/oauth-url', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+    }).then(res => res.json()).then(data => {
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            showToast("平台未正确配置一键授权", "error");
+        }
+    }).catch(() => showToast("请求失败", "error"));
 }

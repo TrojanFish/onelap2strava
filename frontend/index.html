@@ -217,17 +217,41 @@
                         <!-- Mode Toggle Tabs -->
                         <div class="mb-6">
                             <label class="block text-xs font-bold text-slate-300 mb-2">选择 Strava 上传模式：</label>
+                            
                             <div class="flex flex-col sm:flex-row p-1 bg-slate-950 rounded-xl border border-slate-700 gap-1">
-                                <button type="button" id="strava-mode-btn-cookie" onclick="window.setStravaMode('cookie')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40 w-full sm:w-auto">
-                                    <i class="fa-solid fa-cookie"></i> 免 API Cookie 模式 (普通用户)
+                                <button type="button" id="strava-mode-btn-platform" onclick="window.setStravaMode('platform')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40 w-full sm:w-auto">
+                                    <i class="fa-solid fa-rocket"></i> 一键授权模式 (推荐)
+                                </button>
+                                <button type="button" id="strava-mode-btn-cookie" onclick="window.setStravaMode('cookie')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white w-full sm:w-auto">
+                                    <i class="fa-solid fa-cookie"></i> Cookie 模式
                                 </button>
                                 <button type="button" id="strava-mode-btn-api" onclick="window.setStravaMode('api')" class="px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-2 text-slate-400 hover:text-white w-full sm:w-auto">
-                                    <i class="fa-solid fa-key"></i> 官方 Strava API 模式 (开发者)
+                                    <i class="fa-solid fa-key"></i> 开发者 API
                                 </button>
                             </div>
+
                         </div>
 
+                        
+                        <!-- SECTION C: PLATFORM MODE -->
+                        <div id="strava-section-platform" class="space-y-4">
+                            <div class="p-6 rounded-xl border border-orange-500/30 bg-orange-500/5 text-center flex flex-col items-center gap-3">
+                                <div class="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-400 text-2xl shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+                                    <i class="fa-brands fa-strava"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-extrabold text-sm">授权 Onelap2Strava 访问您的运动数据</h3>
+                                    <p class="text-xs text-slate-400 mt-1">最安全、最简单的连接方式。只需登录 Strava 并点击“授权”即可完成绑定。</p>
+                                </div>
+                                <button id="btn-oauth-strava" onclick="startPlatformOAuth()" class="mt-2 btn-primary px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 transition-all">
+                                    <i class="fa-solid fa-link"></i> 去 Strava 官方一键授权
+                                </button>
+                                <p id="platform-unavailable-text" class="text-xs text-red-400 hidden mt-2">⚠️ 站长未配置平台 API，一键授权不可用。请使用其他模式。</p>
+                            </div>
+                        </div>
+                        
                         <!-- SECTION A: COOKIE MODE -->
+
                         <div id="strava-section-cookie" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-bold text-slate-300 mb-1.5">
