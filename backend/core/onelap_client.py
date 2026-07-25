@@ -46,8 +46,15 @@ class OnelapClient:
             response = await self.client.post(url, json=payload, headers=headers)
             if response.status_code == 200:
                 data = response.json()
+                if isinstance(data, list):
+                    if len(data) > 0 and isinstance(data[0], dict) and "token" in data[0]:
+                        data = {"code": 200, "data": data[0]}
+                    else:
+                        raise Exception(f"Unexpected list response: {data}")
                 if data.get("code") == 200 or data.get("status") == 0:
                     token_data = data.get("data", {})
+                    if isinstance(token_data, list):
+                        token_data = token_data[0] if len(token_data) > 0 and isinstance(token_data[0], dict) else {}
                     self.token = token_data.get("token") or token_data.get("accessToken")
                     logger.info(f"Onelap login successful for user: {self.username}")
                     return True
@@ -78,7 +85,18 @@ class OnelapClient:
             response = await self.client.get(url, headers=headers, params=params)
             if response.status_code == 200:
                 data = response.json()
-                records = data.get("data", {}).get("list", []) or data.get("data", [])
+                if isinstance(data, list):
+                    if len(data) > 0 and isinstance(data[0], dict) and "token" in data[0]:
+                        data = {"code": 200, "data": data[0]}
+                    else:
+                        raise Exception(f"Unexpected list response: {data}")
+                data_field = data.get("data", {})
+                if isinstance(data_field, list):
+                    records = data_field
+                elif isinstance(data_field, dict):
+                    records = data_field.get("list", []) or data_field.get("records", []) or []
+                else:
+                    records = []
                 formatted = []
                 for item in records:
                     formatted.append({

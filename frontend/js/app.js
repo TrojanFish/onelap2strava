@@ -360,6 +360,19 @@ async function loadUserConfig() {
         if (res.ok) {
             const cfg = await res.json();
             if (cfg.onelap_username) document.getElementById("cfg-onelap-username").value = cfg.onelap_username;
+            if (cfg.has_onelap_password) {
+                document.getElementById("cfg-onelap-password").placeholder = "******** (已保存)";
+            }
+            if (cfg.has_strava_cookie) {
+                document.getElementById("cfg-strava-cookie").placeholder = "******** (已保存)";
+            }
+            if (cfg.has_strava_client_secret) {
+                document.getElementById("cfg-strava-client-secret").placeholder = "******** (已保存)";
+            }
+            if (cfg.has_strava_refresh_token) {
+                document.getElementById("cfg-strava-refresh-token").placeholder = "******** (已保存)";
+            }
+
             document.getElementById("cfg-auto-sync-toggle").checked = cfg.auto_sync_enabled;
             document.getElementById("cfg-sync-interval").value = cfg.sync_interval_hours || 6;
             
