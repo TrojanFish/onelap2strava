@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  onelap2strava-app:
+    build: .
+    container_name: onelap2strava_webapp
+    ports:
+      - "8000:8000"
+    environment:
+      - SECRET_KEY=change_this_to_your_secure_secret_key_12345
+      - ENCRYPTION_KEY=u234567890123456789012345678901234567890123=
+      - DATABASE_URL=sqlite:///./data/onelap2strava.db
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
