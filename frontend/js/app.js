@@ -38,24 +38,6 @@ window.setStravaMode = function(mode) {
     }
 }
 
-
-    if (mode === "cookie") {
-        if (cookieBtn) cookieBtn.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40";
-        if (apiBtn) apiBtn.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white";
-        if (cookieSec) cookieSec.classList.remove("hidden");
-        if (apiSec) apiSec.classList.add("hidden");
-        if (cookieTut) cookieTut.classList.remove("hidden");
-        if (apiTut) apiTut.classList.add("hidden");
-    } else {
-        if (apiBtn) apiBtn.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 bg-orange-500/20 text-orange-400 border border-orange-500/40";
-        if (cookieBtn) cookieBtn.className = "px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 text-slate-400 hover:text-white";
-        if (apiSec) apiSec.classList.remove("hidden");
-        if (cookieSec) cookieSec.classList.add("hidden");
-        if (apiTut) apiTut.classList.remove("hidden");
-        if (cookieTut) cookieTut.classList.add("hidden");
-    }
-};
-
 async function autoExchangeRefreshToken() {
     if (!localStorage.getItem("token")) {
         openAuthModal();
