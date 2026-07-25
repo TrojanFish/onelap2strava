@@ -3,6 +3,8 @@ import json
 import logging
 import asyncio
 import httpx
+import random
+import asyncio
 from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -77,6 +79,7 @@ class StravaCookieClient:
                 if activity_name:
                     data["name"] = activity_name
 
+                await asyncio.sleep(random.uniform(1.5, 3.0))  # Anti-bot Jitter
                 upload_res = await client.post(upload_url, headers=upload_headers, data=data, files=files)
                 
                 if upload_res.status_code in (200, 201, 202):
