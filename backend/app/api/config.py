@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional
@@ -174,7 +174,7 @@ class PlatformExchangeRequest(BaseModel):
     code: str
 
 @router.post("/exchange-platform-token")
-def exchange_platform_token(req: PlatformExchangeRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def exchange_platform_token(req: PlatformExchangeRequest, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     from backend.app.config import settings
     import requests
     
@@ -198,9 +198,9 @@ def exchange_platform_token(req: PlatformExchangeRequest, db: Session = Depends(
     if not refresh_token:
         raise HTTPException(status_code=400, detail="Strava response missing refresh_token")
         
-    user_config = db.query(UserConfig).filter(UserConfig.user_id == current_user.id).first()
+    user_config = db.query(models.AccountConfig).filter(models.AccountConfig.user_id == current_user.id).first()
     if not user_config:
-        user_config = UserConfig(user_id=current_user.id)
+        user_config = models.AccountConfig(user_id=current_user.id)
         db.add(user_config)
         
     user_config.strava_mode = "api"
