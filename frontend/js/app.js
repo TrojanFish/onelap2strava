@@ -374,7 +374,7 @@ async function loadUserConfig() {
     }
 }
 
-async function saveUserConfig() {
+async function saveUserConfig(silent = false) {
     if (!localStorage.getItem("token")) {
         openAuthModal();
         return;
@@ -409,14 +409,17 @@ async function saveUserConfig() {
             body: JSON.stringify(payload)
         });
         if (res.ok) {
-            showToast("账号与 Strava 配置已成功保存！", "success");
+            if (!silent) showToast("账号与 Strava 配置已成功保存！", "success");
+            if (silent) return true;
             loadUserConfig();
             loadDashboardData();
         } else {
-            showToast("保存失败，请检查填写内容", "error");
+            if (!silent) showToast("保存失败，请检查填写内容", "error");
+            if (silent) return false;
         }
     } catch (e) {
-        showToast("保存配置出错", "error");
+        if (!silent) showToast("保存配置出错", "error");
+        if (silent) return false;
     }
 }
 
@@ -426,6 +429,8 @@ async function testOnelapCredentials() {
         return;
     }
     showToast("正在测试顽鹿账号连接...", "info");
+    const saved = await saveUserConfig(true);
+    if (!saved) return;
     try {
         const res = await fetch(`${API_BASE}/api/config/test-onelap`, {
             method: "POST",
@@ -451,6 +456,8 @@ async function testStravaCredential() {
 
     if (currentStravaMode === "cookie") {
         showToast("正在校验 Strava Session Cookie...", "info");
+        const savedStrava = await saveUserConfig(true);
+        if (!savedStrava) return;
         try {
             const res = await fetch(`${API_BASE}/api/config/test-strava`, {
                 method: "POST",
